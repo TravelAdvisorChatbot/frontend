@@ -23,7 +23,6 @@ import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
 
 function Component() {
   const clickHandler = (params, e) => {
@@ -33,38 +32,23 @@ function Component() {
     function sendData(params) {
       var data1 = params
 
-      function myFunc(_id, _val) {
-        var typingBoolQuery = false;
+      function myFunc(resdata) {
         var typingBool = false;
-        var typingIdxQuery = 0;
         var typingIdx = 0;
-        // var typingTxtQuery = query.toString();
-        var typingTxt = _val.toString(); // 타이핑될 텍스트를 가져온다
+        var typingTxt = resdata.toString(); // 타이핑될 텍스트를 가져온다
         typingTxt = typingTxt.split(""); // 한글자씩 자른다.
-        // document.getElementById(answer_id).innerHTML = document.getElementById(answer_id).innerHTML+'</br>'
-        // document.getElementById(query_id).innerHTML = document.getElementById(query_id).innerHTML+'</br>'
-        
-        if (typingBoolQuery == false && typingBool == false) {
+        document.getElementById("answer").innerHTML = document.getElementById("answer").innerHTML+'</br>'
+        if (typingBool == false) {
           // 타이핑이 진행되지 않았다면
-          typingBoolQuery = true;
           typingBool = true;
-          // var tyIntQuery = setInterval(typingQuery, 100); // 반복동작
+      
           var tyInt = setInterval(typing, 100); // 반복동작
         }
-
-        // function typingQuery() {
-        //   if (typingIdxQuery < typingTxtQuery.length) {
-        //     // 타이핑될 텍스트 길이만큼 반복
-        //     document.getElementById(query_id).append(typingTxtQuery[typingIdxQuery]); // 한글자씩 이어준다.
-        //     typingIdxQuery++;
-        //   } else {
-        //     clearInterval(tyIntQuery); //끝나면 반복종료
-        //   }
-        // }
+      
         function typing() {
           if (typingIdx < typingTxt.length) {
             // 타이핑될 텍스트 길이만큼 반복
-            document.getElementById(_id).append(typingTxt[typingIdx]); // 한글자씩 이어준다.
+            document.getElementById("answer").append(typingTxt[typingIdx]); // 한글자씩 이어준다.
             typingIdx++;
           } else {
             clearInterval(tyInt); //끝나면 반복종료
@@ -90,52 +74,7 @@ function Component() {
         .then(res => {
           console.log(res);
           console.log('Success:', res["key"]);  // Handle the response data
-          /*
-          <div className="flex items-start space-x-3 justify-end">
-            <div className="bg-blue-500 text-white rounded-lg p-3 max-w-[70%]">
-              <p id = "query">Hi there! I have a few questions about your product.</p>
-            </div>
-            <Avatar>
-              <AvatarImage alt="User" src="/user-avatar.png" />
-              <AvatarFallback>U</AvatarFallback>
-            </Avatar>
-          </div>
-          */
-          const elemetQuery = <div className="flex items-start space-x-3 justify-end">
-                                <div className="bg-blue-500 text-white rounded-lg p-3 max-w-[70%]">
-                                  <p id = "query1"></p>
-                                </div>
-                                <Avatar>
-                                  <AvatarImage alt="User" src="/user-avatar.png" />
-                                  <AvatarFallback>U</AvatarFallback>
-                                </Avatar>
-                              </div>
-          /*
-          <div className="flex items-start space-x-3">
-            <Avatar>
-              <AvatarImage alt="Chatbot" src="/chatbot-avatar.png" />
-              <AvatarFallback>CB</AvatarFallback>
-            </Avatar>
-            <div className="bg-white dark:bg-gray-950 dark:text-gray-200 rounded-lg p-3 max-w-[70%]">
-              <p id="answer">Hello! How can I assist you today?</p>
-            </div>
-          </div>
-          */
-          const elemet = <div className="flex items-start space-x-3">
-                          <Avatar>
-                            <AvatarImage alt="Chatbot" src="/chatbot-avatar.png" />
-                            <AvatarFallback>CB</AvatarFallback>
-                          </Avatar>
-                          <div className="bg-white dark:bg-gray-950 dark:text-gray-200 rounded-lg p-3 max-w-[70%]">
-                            <p id="answer1"></p>
-                          </div>
-                        </div>
-          const rootElement = document.getElementById("plane");
-          ReactDOM.render(elemetQuery, rootElement);
-          const rootElement2 = document.getElementById("plane");
-          ReactDOM.render(elemet, rootElement2); // (주입할 대상, root) -> 자바스크립트로 따지면 append()
-          myFunc("query1", idValue);
-          myFunc("answer1", res["key"]);
+          myFunc(res["key"])
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -161,19 +100,19 @@ function Component() {
           <h2 className="text-lg font-medium">Chatbot</h2>
         </div>
       </header>
-      <div className="flex-1 overflow-y-auto p-4 space-y-4" id="plane">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex items-start space-x-3">
           <Avatar>
             <AvatarImage alt="Chatbot" src="/chatbot-avatar.png" />
             <AvatarFallback>CB</AvatarFallback>
           </Avatar>
           <div className="bg-white dark:bg-gray-950 dark:text-gray-200 rounded-lg p-3 max-w-[70%]">
-            <p id="answer">Hello! How can I assist you today?</p>
+            <p>Hello! How can I assist you today?</p>
           </div>
         </div>
         <div className="flex items-start space-x-3 justify-end">
           <div className="bg-blue-500 text-white rounded-lg p-3 max-w-[70%]">
-            <p id = "query">Hi there! I have a few questions about your product.</p>
+            <p>Hi there! I have a few questions about your product.</p>
           </div>
           <Avatar>
             <AvatarImage alt="User" src="/user-avatar.png" />
