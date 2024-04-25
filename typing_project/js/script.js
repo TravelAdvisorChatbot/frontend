@@ -31,10 +31,10 @@ function show_name(e){
 //   }
 
 function sendData(data1) {
-  function myFunc() {
+  function myFunc(resdata) {
     var typingBool = false;
     var typingIdx = 0;
-    var typingTxt = data1; // 타이핑될 텍스트를 가져온다
+    var typingTxt = resdata.toString(); // 타이핑될 텍스트를 가져온다
     typingTxt = typingTxt.split(""); // 한글자씩 자른다.
     document.getElementById("word").innerHTML = document.getElementById("word").innerHTML+'</br>'
     if (typingBool == false) {
@@ -60,20 +60,16 @@ function sendData(data1) {
   console.log(data)
   // console.log(location.origin);
 
-  fetch(url, {
+  fetch(url+"?data1=15&", {
       method: 'POST',   // or 'PUT'
       mode: 'no-cors',
       headers: {
-        'Accept': "application/json, text/plain, */*",
-        'Content-Type': "application/json;charset=utf-8"
+        'Content-Type': "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(data), // Convert data to JSON
   })
-  .then(response => response.json()
-  )  // Convert response to JSON
-  .then(data => {
-    console.log('Success:', data);  // Handle the response data
-    myFunc()
+  .then(resdata => {
+    console.log('Success:', resdata);  // Handle the response data
+    myFunc(resdata.body)
   })
   .catch((error) => {
       console.error('Error:', error);
